@@ -51,11 +51,6 @@ export default function App() {
           <SearchForm carregando={estado.tipo === "carregando"} onBuscar={buscar} />
 
           <section className="output" aria-live="polite">
-            {estado.tipo === "inicial" && (
-              <div className="card notice">
-              </div>
-            )}
-
             {estado.tipo === "carregando" && (
               <div className="card notice" role="status">
                 <span className="spinner" aria-hidden="true" />

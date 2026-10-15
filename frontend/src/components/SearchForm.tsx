@@ -25,6 +25,14 @@ export function SearchForm({ carregando, onBuscar }: Props) {
     onBuscar({ idioma, dias, inicioFaixa, fimFaixa, duracaoMinutos });
   }
 
+  function limpar() {
+    setIdioma(IDIOMAS[0]);
+    setDias([]);
+    setInicioFaixa("08:00");
+    setFimFaixa("18:00");
+    setDuracaoMinutos(DURACOES[1]);
+  }
+
   return (
     <form className="card form" onSubmit={enviar}>
       <label>
@@ -69,9 +77,20 @@ export function SearchForm({ carregando, onBuscar }: Props) {
         </select>
       </label>
 
+    <div className="form-actions">
       <button type="submit" disabled={carregando}>
         {carregando ? "Buscando…" : "Buscar"}
       </button>
+
+      <button
+        type="button"
+        className="secondary"
+        onClick={limpar}
+        disabled={carregando}
+      >
+        Limpar
+      </button>
+    </div>
     </form>
   );
 }

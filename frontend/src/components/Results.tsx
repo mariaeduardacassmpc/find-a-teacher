@@ -5,9 +5,16 @@ type Props = {
 };
 
 export function Results({ dados }: Props) {
+  if (!dados) {
+    return null;
+  }
 
-  const professores = dados?.professores ?? [];
-  const naoElegiveis = dados?.naoElegiveis ?? [];
+  const professores = dados.professores ?? [];
+  const naoElegiveis = dados.naoElegiveis ?? [];
+
+  if (professores.length === 0 && naoElegiveis.length === 0) {
+    return null;
+  }
 
   return (
     <div className="results">
@@ -23,7 +30,7 @@ export function Results({ dados }: Props) {
         <>
           <h2 className="results-title">
             {professores.length === 1
-              ? "1 professor disponível"
+              ? "1 Professor disponível"
               : `${professores.length} professores disponíveis`}
           </h2>
 
