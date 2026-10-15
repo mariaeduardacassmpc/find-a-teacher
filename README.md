@@ -1,49 +1,88 @@
-# Desafio técnico: Encontre um Professor
+# Encontre um Professor
 
-## Contexto
+Aplicação desenvolvida como solução para um desafio técnico, com o objetivo de encontrar professores de idiomas disponíveis para atender à agenda de um aluno.
 
-Uma escola de idiomas precisa encontrar professores disponíveis para cada novo aluno. O aluno informa o idioma, os dias da semana, a faixa de horário em que pode ter aula e a duração da aula; o sistema devolve os professores que conseguem atendê-lo e em quais horários.
+O aluno informa o idioma desejado, os dias da semana, a faixa de horário e a duração da aula. A aplicação retorna os professores elegíveis, os horários disponíveis em comum e os professores não elegíveis, acompanhados dos respectivos motivos.
 
-Você vai construir uma API em C# que resolve essa busca e uma tela em React para usá-la.
+## Tecnologias utilizadas
 
-**Estimativa:** 6 a 8 horas de trabalho. O prazo de entrega é informado no convite do processo seletivo.
+**Backend**
 
-## Como começar
+- C#
+- .NET 8
+- ASP.NET Core Web API
 
-1. Clique em **Use this template** para criar o seu próprio repositório a partir deste.
-2. Desenvolva a solução no seu repositório.
-3. Envie o link pelo mesmo canal em que recebeu o desafio. O repositório precisa estar público ou com acesso liberado para quem enviou o desafio.
+**Frontend**
 
-## Dados
+- React
+- TypeScript
+- Vite
 
-Os professores estão em [`professores.json`](professores.json). Carregue-os desse arquivo; você pode mantê-los em memória.
+## Estrutura do projeto
 
-Cada professor tem:
+```
+find-a-teacher-api/
+├── backend/
+├── frontend/
+├── professores.json
+├── README.md
+└── USO_DE_IA.md
+```
 
-| Campo | Descrição |
-|---|---|
-| `id`, `nome` | Identificação do professor |
-| `idiomas` | Idiomas que ele ensina |
-| `agendaBloqueada` | Quando `true`, o professor não pode receber novos alunos |
-| `disponibilidade` | Blocos semanais em que ele pode dar aula (`dia`, `inicio`, `fim`) |
-| `aulasMarcadas` | Aulas que ele já tem na semana (`dia`, `inicio`, `duracaoMinutos`) |
+O arquivo `professores.json` contém os dados utilizados pela aplicação para realizar a busca de professores.
 
-**Garantias dos dados:**
+## Como executar o projeto
 
-- Horários no formato `HH:mm`.
-- Nada atravessa a meia-noite.
-- Blocos de disponibilidade de um mesmo dia nunca se sobrepõem nem se encostam.
-- Dias da semana: `segunda`, `terca`, `quarta`, `quinta`, `sexta`, `sabado`, `domingo`.
+### Pré-requisitos
 
-## O que construir
+- .NET 8 SDK
+- Node.js e npm
 
-### 1. API (C# e .NET 8)
+### 1. Executar o backend
+
+Entre na pasta `backend`:
+
+```
+cd backend
+cd src
+cd FindATeacher.Api
+```
+
+Restaure as dependências e execute a API:
+
+```
+dotnet restore
+dotnet run
+```
+
+A API será iniciada no endereço exibido no terminal.
+
+### 2. Executar o frontend
+
+Em outro terminal, entre na pasta `frontend`:
+
+```
+cd frontend
+```
+
+Instale as dependências e inicie a aplicação:
+
+```
+npm install
+npm run dev
+```
+
+Acesse no navegador o endereço informado pelo Vite no terminal.
+
+## Endpoint
+
+### Buscar professores disponíveis
 
 `POST /api/professores/busca`
 
-**Requisição:**
+Exemplo de requisição:
 
-```json
+```
 {
   "idioma": "Espanhol",
   "dias": ["segunda"],
@@ -53,78 +92,60 @@ Cada professor tem:
 }
 ```
 
-**Resposta:**
+A resposta contém duas listas: `professores`, com os professores elegíveis e seus horários disponíveis, e `naoElegiveis`, com os professores que não atendem aos critérios e os respectivos motivos.
 
-```json
-{
-  "professores": [
-    { "id": 1, "nome": "Ana",   "aulasNaSemana": 1, "horarios": ["18:00"] },
-    { "id": 4, "nome": "Diego", "aulasNaSemana": 1, "horarios": ["18:00", "18:30", "19:00"] }
-  ],
-  "naoElegiveis": [
-    { "id": 2, "nome": "Bruno", "motivo": "Não ensina o idioma" }
-  ]
-}
+## Validações da busca de professores
+
+- Validação do idioma obrigatório.
+- Validação da seleção de pelo menos um dia da semana.
+- Validação dos dias da semana informados.
+- Validação do formato dos horários (`HH:mm`).
+- Validação de que o horário final seja posterior ao inicial.
+- Validação das durações permitidas: 30, 60 ou 90 minutos.
+- Validação para impedir dias da semana duplicados.
+
+## Regras da busca
+
+- O professor precisa ensinar o idioma pedido.
+- Professores com agenda bloqueada não aparecem entre os elegíveis.
+- **Horário fixo:** o mesmo horário de início precisa estar livre em todos os dias pedidos.
+- A aula precisa caber inteiramente dentro de um bloco de disponibilidade do professor e da faixa de horário solicitada.
+- A aula não pode se sobrepor a uma aula já marcada. **Encostar é permitido:** uma aula que termina às 19:00 permite outra começando às 19:00.
+- A aula só pode começar em hora cheia ou meia hora (`:00` ou `:30`).
+- **Ordenação dos professores:** primeiro quem tem menos aulas marcadas na semana; em caso de empate, ordem alfabética do nome.
+- Os horários disponíveis de cada professor são apresentados em ordem crescente.
+
+## Testes
+
+O projeto contempla testes automatizados em C# para validar as regras de negócio sem precisar iniciar a API. Os testes devem cobrir os principais cenários da busca, incluindo disponibilidade, conflitos de horários, idioma, agenda bloqueada e ordenação dos resultados.
+
+Para executar os testes, na pasta da solução que contém o projeto de testes, utilize:
+
+```
+dotnet test
 ```
 
-A lista `naoElegiveis` do exemplo está resumida a um item.
+| **Teste** | **Regra validada** |
+| --- | --- |
+| Buscar_IdiomaNaoEnsinado_DeveRetornarMotivoCorreto | Exclui quem não ensina o idioma solicitado. |
+| Buscar_AgendaBloqueada_NaoDeveRetornarProfessorComoElegivel | Exclui professor com agenda bloqueada. |
+| Buscar_DiasSemHorarioDeInicioComum_DeveExcluirProfessor | Exige um horário de início comum a todos os dias. |
+| Buscar_DeveOrdenarProfessoresPorQuantidadeDeAulasENome | Ordena os professores pela quantidade de aulas e ordem alfabetica. |
+| Buscar_HorarioDeveCaberInteiroNaFaixaSolicitada | A aula deve terminar dentro da faixa pedida. |
+| Buscar_IdiomaVazio_DeveLancarExcecao | Valida os dados de entrada. |
+| Buscar_AulaMarcada_DevePermitirHorarioQueApenasEncosta | Testa conflito e horário que encosta no início de uma aula marcada |
 
-### 2. Regras da busca
+## O que ficou faltando
 
-1. O professor precisa ensinar o idioma pedido.
-2. Professor com agenda bloqueada não aparece.
-3. **O aluno quer horário fixo:** o mesmo horário de início precisa estar livre em **todos** os dias pedidos.
-4. A aula precisa caber **inteira** dentro de um bloco de disponibilidade do professor e dentro da faixa pedida pelo aluno.
-5. A aula não pode se sobrepor a uma aula já marcada. **Encostar é permitido:** uma aula que termina às 19:00 permite outra começando às 19:00.
-6. A aula só pode começar em hora cheia ou meia hora (`:00` ou `:30`).
-7. **Ordenação:** primeiro quem tem menos aulas marcadas na semana; em caso de empate, ordem alfabética do nome. Os horários de cada professor vêm em ordem crescente.
+- **Melhorias na interface:** aprimorar a apresentação dos resultados da busca para facilitar a comparação entre professores e seus horários disponíveis.
+- **Testes automatizados:** ampliar a cobertura de testes das validações da requisição e das regras de negócio da busca.
 
-**Diferencial:** preencher `naoElegiveis` com o motivo de cada professor que ficou de fora, usando exatamente um destes textos:
+## Decisões técnicas e regras de negócio
 
-- `Não ensina o idioma`
-- `Agenda bloqueada`
-- `Sem horário em comum nos dias pedidos`
-
-Quando houver mais de um motivo, informe o primeiro nessa ordem.
-
-### 3. Validação
-
-A API responde **400** com uma mensagem clara quando:
-
-- o idioma está vazio;
-- nenhum dia foi informado;
-- algum dia é inválido;
-- algum horário está fora do formato `HH:mm`;
-- o fim da faixa é igual ou anterior ao início;
-- a duração é diferente de 30, 60 ou 90 minutos.
-
-### 4. Tela (React, de preferência com TypeScript)
-
-- **Formulário:** idioma (Inglês, Espanhol ou Francês), dias da semana, faixa de horário e duração.
-- **Resultado:** cada professor com os horários possíveis e a quantidade de aulas na semana.
-- **Estados:** carregando, nenhum professor encontrado, falha de comunicação com a API e erros de validação devolvidos pela API.
-- **Diferencial:** mostrar os professores que ficaram de fora e o motivo.
-
-### 5. Testes
-
-No mínimo **5 testes automatizados em C#** sobre as regras da busca. Os testes não devem depender de subir a API.
-
-## Se algo não estiver coberto
-
-Se encontrar uma situação que as regras não cobrem, decida, implemente e registre a decisão no README. Isso faz parte da avaliação.
-
-## Entrega
-
-- **`README.md`** no seu repositório, com: como rodar a API e a tela, as decisões que você tomou e o que ficou faltando.
-- **`USO_DE_IA.md`**, com: quais ferramentas de IA você usou, como usou e **pelo menos um caso em que a IA errou** e como você percebeu. Usar IA é permitido; o que avaliamos é se você entende tudo o que entregou.
-
-## O que vamos avaliar
-
-1. As regras estão corretas, inclusive nos casos de fronteira.
-2. Os testes provam as regras.
-3. O código é organizado, com a regra de negócio separada da camada HTTP.
-4. A validação e o tratamento de erros funcionam.
-5. A tela cobre todos os estados.
-6. O README é claro e registra as decisões.
-
-Na entrevista técnica, você vai apresentar a solução e fazer uma pequena alteração ao vivo.
+- Frontend baseado no site oficial.
+- Concentrar a lógica de busca no `ProfessorService`, em vez de deixá-la no controller.
+- Separação em `Api`, `Application` e `Domain`  para separar responsabilidades e facilitar a manutenção.
+- Separar o formulário e a apresentação dos resultados em componentes.
+- Criar a interface `IProfessorRepository` para desacoplar o serviço da origem dos dados.
+- Criar um `FakeProfessorRepository` para fornecer dados controlados aos testes.
+- Utilizar xUnit.
