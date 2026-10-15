@@ -2,10 +2,22 @@ import type { BuscaResponse } from "../types";
 
 type Props = {
   dados: BuscaResponse | null;
+  idioma: string;
+  dias: string[];
 };
 
-export function Results({ dados }: Props) {
-  if (!dados) {
+const WHATSAPP_NUMBER = "5511913702897";
+
+function whatsappUrl(professor: string, horario: string, idioma: string, dias: string[]) 
+{
+  const diasFormatados = dias.join(", ");
+  const mensagem = `Olá! Tenho interesse em ter aulas de ${idioma} com o(a) professor(a) ${professor}, nos dias ${diasFormatados}, às ${horario}.`;
+
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
+}
+
+export function Results({ dados, idioma, dias }: Props) {
+    if (!dados) {
     return null;
   }
 
@@ -38,18 +50,34 @@ export function Results({ dados }: Props) {
             {professores.map((p) => (
               <li key={p.id} className="card teacher">
                 <div className="teacher-head">
-                  <h3>{p.nome}</h3>
+                  <h3>
+                    <span className="teacher-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <circle cx="12" cy="8" r="3.5" />
+                        <path d="M5 20c.7-3.4 3.1-5 7-5s6.3 1.6 7 5" />
+                      </svg>
+                    </span>
+                    Prof. {p.nome}
+                  </h3>
                   <span className="load">
                     {p.aulasNaSemana === 1
-                      ? "1 aula na semana"
-                      : `${p.aulasNaSemana} aulas na semana`}
+                      ? "1 aula disponível na semana"
+                      : `${p.aulasNaSemana} aulas disponíveis na semana`}
                   </span>
                 </div>
 
                 <ul className="slots" aria-label={`Horários de ${p.nome}`}>
                   {p.horarios.map((h) => (
                     <li key={h} className="slot">
-                      {h}
+                      <a
+                        href={whatsappUrl(p.nome, h, idioma, dias)}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Solicitar o horário ${h} com ${p.nome} pelo WhatsApp`}
+                        title="Clique para solicitar este horário pelo WhatsApp"
+                      >
+                        {h}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -61,11 +89,11 @@ export function Results({ dados }: Props) {
 
       {naoElegiveis.length > 0 && (
         <details className="card excluded">
-          <summary>Ficaram de fora ({naoElegiveis.length})</summary>
+          <summary>Indisponíveis no momento({naoElegiveis.length})</summary>
           <ul>
             {naoElegiveis.map((p) => (
               <li key={p.id}>
-                <strong>{p.nome}</strong>
+                <strong>Prof. {p.nome}</strong>
                 <span>{p.motivo}</span>
               </li>
             ))}

@@ -2,7 +2,6 @@ using FindATeacher.Application.DTOs;
 using FindATeacher.Application.Interfaces;
 using FindATeacher.Application.Services;
 using FindATeacher.Domain.Entities;
-using Xunit;
 
 namespace FindATeacher.Tests.Services;
 
@@ -133,6 +132,20 @@ public class ProfessorServiceTests
         request.Idioma = idioma;
 
         Assert.Throws<ArgumentException>(() => _service.Buscar(request));
+    }
+
+    [Fact]
+    public void Buscar_DeveOrdenarProfessoresPorQuantidadeDeAulasENome()
+    {
+        var resultado = _service.Buscar(CriarRequest());
+
+        var ids = resultado.Professores.Select(p => p.Id).ToList();
+
+        Assert.Equal(
+            ids.OrderBy(id => resultado.Professores.First(p => p.Id == id).AulasNaSemana)
+                .ThenBy(id => resultado.Professores.First(p => p.Id == id).Nome)
+                .ToList(),
+            ids);
     }
 
     private static BuscarProfessoresRequest CriarRequest() => new()

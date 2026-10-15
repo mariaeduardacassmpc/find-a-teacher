@@ -259,10 +259,26 @@ button.secondary {
   margin-bottom: 16px;
 }
 .teacher-head h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0;
   color: var(--blue);
   font-size: 19px;
   font-weight: 800;
+}
+.teacher-icon {
+  display: inline-flex;
+  color: var(--blue);
+}
+.teacher-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 .load {
   padding: 6px 11px;
@@ -282,18 +298,25 @@ button.secondary {
   list-style: none;
 }
 .slot {
-  padding: 8px 13px;
   border: 1px solid #d5e2f5;
   border-radius: 9px;
   background: var(--blue-soft, #edf3ff);
-  color: var(--blue);
   font-size: 13px;
   font-weight: 700;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
+.slot a {
+  display: block;
+  padding: 8px 13px;
+  color: var(--blue);
+}
 .slot:hover {
   border-color: var(--blue);
   background: #e0ebfa;
+}
+.slot a:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
 }
 .excluded {
   margin-top: 28px;

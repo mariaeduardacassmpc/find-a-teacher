@@ -10,7 +10,7 @@ import { Navbar } from "./components/Navbar";
 type Estado =
   | { tipo: "inicial" }
   | { tipo: "carregando" }
-  | { tipo: "sucesso"; dados: BuscaResponse }
+  | { tipo: "sucesso"; dados: BuscaResponse; busca: BuscaRequest }
   | { tipo: "validacao"; mensagens: string[] }
   | { tipo: "rede"; mensagem: string };
 
@@ -25,7 +25,7 @@ export default function App() {
     setEstado({ tipo: "carregando" });
     try {
       const dados = await buscarProfessor(req);
-      if (id === contador.current) setEstado({ tipo: "sucesso", dados });
+      if (id === contador.current) setEstado({ tipo: "sucesso", dados, busca: req });
     } catch (erro) {
       if (id !== contador.current) return;
       if (erro instanceof ValidationError) {
@@ -83,7 +83,13 @@ export default function App() {
               </div>
             )}
 
-            {estado.tipo === "sucesso" && <Results dados={estado.dados} />}
+            {estado.tipo === "sucesso" && (
+              <Results
+                dados={estado.dados}
+                idioma={estado.busca.idioma}
+                dias={estado.busca.dias}
+              />
+            )}
           </section>
         </main>
       </div>
