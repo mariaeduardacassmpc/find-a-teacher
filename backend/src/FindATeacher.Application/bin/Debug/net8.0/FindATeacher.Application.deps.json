@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "FindATeacher.Application/1.0.0": {
+        "dependencies": {
+          "FindATeacher.Domain": "1.0.0"
+        },
+        "runtime": {
+          "FindATeacher.Application.dll": {}
+        }
+      },
+      "FindATeacher.Domain/1.0.0": {
+        "runtime": {
+          "FindATeacher.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FindATeacher.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "FindATeacher.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

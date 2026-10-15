@@ -1,0 +1,12 @@
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\bin\Debug\net8.0\FindATeacher.Domain.deps.json
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\bin\Debug\net8.0\FindATeacher.Domain.dll
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\bin\Debug\net8.0\FindATeacher.Domain.pdb
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\FindATeacher.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\FindATeacher.Domain.AssemblyInfoInputs.cache
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\FindATeacher.Domain.AssemblyInfo.cs
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\FindATeacher.Domain.csproj.CoreCompileInputs.cache
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\FindATeacher.Domain.sourcelink.json
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\FindATeacher.Domain.dll
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\refint\FindATeacher.Domain.dll
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\FindATeacher.Domain.pdb
+C:\mariaeduarda\find-a-teacher\backend\src\FindATeacher.Domain\obj\Debug\net8.0\ref\FindATeacher.Domain.dll
