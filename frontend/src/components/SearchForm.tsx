@@ -25,6 +25,13 @@ export function SearchForm({ carregando, onBuscar }: Props) {
     onBuscar({ idioma, dias, inicioFaixa, fimFaixa, duracaoMinutos });
   }
 
+  const HORARIOS = Array.from({ length: 48 }, (_, i) => {
+    const horas = String(Math.floor(i / 2)).padStart(2, "0");
+    const minutos = i % 2 === 0 ? "00" : "30";
+
+    return `${horas}:${minutos}`;
+  });
+
   function limpar() {
     setIdioma(IDIOMAS[0]);
     setDias([]);
@@ -60,7 +67,16 @@ export function SearchForm({ carregando, onBuscar }: Props) {
 
       <label>
         Início
-        <input type="time" value={inicioFaixa} onChange={(e) => setInicioFaixa(e.target.value)} />
+        <select
+          value={inicioFaixa}
+          onChange={(e) => setInicioFaixa(e.target.value)}
+        >
+          {HORARIOS.map((horario) => (
+            <option key={horario} value={horario}>
+              {horario}
+            </option>
+          ))}
+        </select>
       </label>
 
       <label>

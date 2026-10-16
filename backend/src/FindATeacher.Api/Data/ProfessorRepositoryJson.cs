@@ -18,13 +18,14 @@ public class ProfessorRepositoryJson : IProfessorRepository
 
         var json = File.ReadAllText(caminhoArquivo);
 
-        _professores = JsonSerializer.Deserialize<List<Professor>>(
-            json,
+        var dados = JsonSerializer.Deserialize<ProfessoresJson>(json,
             new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             }
-        ) ?? [];
+        );
+
+        _professores = dados?.Professores ?? [];
     }
 
     public IReadOnlyList<Professor> ObterTodos() => _professores;
