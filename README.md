@@ -123,7 +123,11 @@ Para executar os testes, na pasta da solução que contém o projeto de testes, 
 
 ```
 dotnet test
+
+Se estiver na raiz do repositório, informe o caminho do projeto de testes:
+dotnet test backend/tests/FindATeacher.Tests/FindATeacher.Tests.csproj
 ```
+
 
 | **Teste** | **Regra validada** |
 | --- | --- |
