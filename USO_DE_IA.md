@@ -4,6 +4,7 @@
 
 Utilizei o Claude Code como ferramenta de apoio durante o desenvolvimento do projeto Encontre um professor.
 
+
 ## Como utilizei a IA
 
 Utilizei a ferramenta para esclarecer dúvidas técnicas, revisar implementações e auxiliar na identificação de possíveis problemas durante o desenvolvimento.
@@ -15,6 +16,8 @@ Os principais usos foram:
 - **Frontend:** auxílio com CSS e ajustes de layout e responsividade.
 
 
+
+
 ## Caso em que a IA errou
 
 Durante a publicação da aplicação, inicialmente considerei que, por o frontend e o backend estarem no mesmo repositório, seria possível publicá-los juntos sem configurações adicionais. A orientação inicial não deixou suficientemente clara a diferença entre compartilhar um repositório e compartilhar um ambiente de execução.
@@ -22,6 +25,7 @@ Durante a publicação da aplicação, inicialmente considerei que, por o fronte
 Ao investigar o problema, percebi que o frontend hospedado no Vercel e a API .NET precisavam estar acessíveis por URLs e ambientes de execução configurados corretamente. Também identifiquei a necessidade de configurar o CORS no backend para permitir as requisições originadas do frontend.
 
 Esse caso mostrou a importância de verificar as orientações recebidas e compreender como os serviços de hospedagem funcionam, em vez de aplicar uma sugestão sem validar seus efeitos.
+
 
 ## Considerações finais
 
