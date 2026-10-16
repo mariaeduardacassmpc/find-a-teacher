@@ -24,7 +24,6 @@ O aluno informa o idioma desejado, os dias da semana, a faixa de horário e a du
 find-a-teacher-api/
 ├── backend/
 ├── frontend/
-├── professores.json
 ├── README.md
 └── USO_DE_IA.md
 ```
@@ -149,3 +148,4 @@ dotnet test
 - Criar a interface `IProfessorRepository` para desacoplar o serviço da origem dos dados.
 - Criar um `FakeProfessorRepository` para fornecer dados controlados aos testes.
 - Utilizar xUnit.
+- Dias repetidos na requisição: dias duplicados são considerados apenas uma vez na busca, evitando processar o mesmo dia repetidamente.
