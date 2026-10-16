@@ -102,6 +102,7 @@ A resposta contém duas listas: `professores`, com os professores elegíveis e s
 - Validação de que o horário final seja posterior ao inicial.
 - Validação das durações permitidas: 30, 60 ou 90 minutos.
 - Validação para impedir dias da semana duplicados.
+- Validação para permitir apenas horários com minutos 00 ou 30.
 
 ## Regras da busca
 
